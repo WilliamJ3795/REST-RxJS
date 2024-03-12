@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+   selector: 'app-root',
+   template: `<app-book></app-book>`
 })
-export class AppComponent {
-  title = 'myProject-REST_RxJS';
+export class AppComponent { 
 }

@@ -1,0 +1,79 @@
+<h3 *ngIf="bookIdToUpdate; else create"> 
+    Update Book : 
+</h3> 
+<ng-template #create> 
+    <h3> Create New Book </h3> 
+</ng-template> 
+<div>
+    <form [formGroup]="bookForm" (ngSubmit)="onBookFormSubmit()">
+        <table>
+            <tr>
+                <td>Enter Title</td>
+                <td>
+                    <input formControlName="title">
+                    <label *ngIf="bookForm.get('title')?.invalid && processValidation"class="error">
+                        Title is required.
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>Enter Author</td>
+                <td>
+                    <input formControlName="author">
+                    <label *ngIf="bookForm.get('author')?.invalid && processValidation" class="error"> Author is required.
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button *ngIf="bookIdToUpdate == -1">create</button>
+                    <button *ngIf="bookIdToUpdate != -1">update</button>
+                    <button (click)="backToCreateBook()" *ngIf="bookIdToUpdate != -1">
+                        Go Back</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <br/>
+        <div *ngIf="statusCode; else processing">
+            <div *ngIf="statusCode === 201" class="success">
+                Book added successfully.
+            </div>
+            <div *ngIf="statusCode === 200" class="success">
+                Book updated successfully.
+            </div>
+            <div *ngIf="statusCode === 204" class="success">
+                Book deleted successfully.
+            </div>
+            <div *ngIf="statusCode === 500" class="error">
+                Internal Server Error.
+            </div>
+        </div>
+        <ng-template #processing>
+            <img *ngIf="requestProcessing" src="assets/images/loading.gif">
+        </ng-template>
+    </div>
+    <h3>Book Details</h3>
+    <table>
+        <tr>
+            <th> Id</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let book of allBooks">
+            <td>{{book.id}}</td>
+            <td>{{book.title}}</td>
+            <td>{{book.author}}</td>
+            <td>
+                <button type="button" 
+                (click)="loadBookToEdit(book.id.toString())">edit</button>
+            </td>
+            <td>
+                <button type="button"(click)="deleteBook(book.id.toString())">delete</button>
+            </td>
+        </tr>
+    </table>
+
+  
